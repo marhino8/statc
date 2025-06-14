@@ -36,10 +36,13 @@ public class SecurityConfig {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers(new AntPathRequestMatcher("/record/save"))
+                        .ignoringRequestMatchers(
+                                new AntPathRequestMatcher("/record/save"),
+                                new AntPathRequestMatcher("/record/getAll")
+                        )
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/record/save").permitAll()
+                        .requestMatchers("/login", "/css/**", "/record/save", "/record/getAll").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

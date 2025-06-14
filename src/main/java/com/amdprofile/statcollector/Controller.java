@@ -2,10 +2,9 @@ package com.amdprofile.statcollector;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,6 +18,11 @@ public class Controller {
     public ResponseEntity<Void> saveRecord(@RequestBody Record record) {
         recordService.saveRecord(record);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Record>> getAllRecords() {
+        return ResponseEntity.ok().body(recordService.getAllRecords());
     }
 
 }
