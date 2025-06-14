@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Главная</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6fa;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px; /* увеличено сверху и снизу на 8px */
+            background-color: #2d2d2d;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .navbar .title {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .logout-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .logout-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logout-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .content {
+            margin-top: 72px; /* учтён увеличенный navbar */
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        form.logout-form {
+            background: rgba(0, 0, 0, 0);
+            box-shadow: none !important;
+            width: auto !important;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="title">📋 Панель</div>
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="logout-button" title="Выйти">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V5m0 0H5a2 2 0 00-2 2v10a2 2 0 002 2h8"/>
+            </svg>
+            Выйти
+        </button>
+    </form>
+</div>
+
+<div class="content">
+    <div class="table-container">
+        <h2>Список записей</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Chat ID</th>
+                <th>Username</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Дата и время</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="record : ${records}">
+                <td th:text="${record.id}"></td>
+                <td th:text="${record.chatId}"></td>
+                <td th:text="${record.userName}"></td>
+                <td th:text="${record.firstName}"></td>
+                <td th:text="${record.lastName}"></td>
+                <td th:text="${#temporals.format(record.dateTime, 'dd.MM.yyyy HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
