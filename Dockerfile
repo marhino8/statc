@@ -1,14 +1,12 @@
-# Используем официальный базовый образ Java 21
+# Стадия 1: Сборка .jar
+FROM maven:3.9.4-eclipse-temurin-21 AS builder
+WORKDIR /build
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Стадия 2: Запуск
 FROM eclipse-temurin:21-jdk
-
-# Устанавливаем рабочую директорию
 WORKDIR /app
-
-# Копируем собранный jar-файл (уточни имя, если оно другое)
-COPY target/*.jar app.jar
-
-# Указываем порт, который будет прослушивать Spring Boot
+COPY --from=builder /build/target/*.jar app.jar
 EXPOSE 8080
-
-# Команда запуска Spring Boot
-ENTRYPOINT ["java", "-jar", "ap
+ENTRYPOINT ["java", "-jar", "app.jar"]
